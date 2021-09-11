@@ -1,5 +1,7 @@
 #include<stdio.h>
 
+
+/*下準備　7セグメントの点灯、消灯に*/
 int num[10][7] = {{1,1,1,1,1,1,0},
                  {0,1,1,0,0,0,0},
                  {1,1,0,1,1,0,1},
@@ -11,6 +13,7 @@ int num[10][7] = {{1,1,1,1,1,1,0},
                  {1,1,1,1,1,1,1},
                  {1,1,1,1,0,1,1}};
 
+/*関数化する必要なかったかも()*/
 int next4(int NH0, int NH1, int NM0,int NM1, int H20, int H21, int M20,int M21){
     if(NH0 == H20 && NH1 == H21 && NM0 == M20 && NM1 == M21) {
         return 0;
@@ -20,10 +23,13 @@ int next4(int NH0, int NH1, int NM0,int NM1, int H20, int H21, int M20,int M21){
 
 }
 int main(void) {
+    /*入力*/
     int h1, m1, h2,m2;
     int H1[2], M1[2], H2[2], M2[2];
     scanf("%d %d %d %d", &h1, &m1, &h2, &m2);
     int i,j;
+
+    /*それぞれ２桁の配列に分割*/
         H1[0] = (int)h1 / 10;
         H1[1] = h1 % 10;      
         M1[0] = (int)m1 / 10;
@@ -34,13 +40,15 @@ int main(void) {
         M2[1] = m2 % 10;
     
     int sum = 0;
+    /*比較対象の設定*/
     int nextH[2],nextM[2];
     nextH[0] = H1[0];
     nextH[1] = H1[1];    
     nextM[0] = M1[0];
     nextM[1] = M1[1];
 
-    while(next4(nextH[0],nextH[1], nextM[0],nextM[1], H2[0], H2[1], M2[0],M2[1])) {
+    while(next4(nextH[0],nextH[1], nextM[0],nextM[1], H2[0], H2[1], M2[0],M2[1])) {//関数化する必要なか(ry
+    /*nextMをインクリメント（繰り上がり計算を添えて）*/
         nextM[1]++;
         if (nextM[1] == 10)
         {
@@ -61,6 +69,7 @@ int main(void) {
             nextH[0] = 0;
         }
         
+        /*実際に電力計算*/
         for(j = 0; j < 7; j++) {
             if(num[nextH[0]][j] - num[H1[0]][j] == 1) {
                 sum++;
@@ -76,7 +85,7 @@ int main(void) {
             }
             
         }
-
+        /*比較対象の更新*/
             H1[0] = nextH[0];
             H1[1] = nextH[1];
             M1[0] = nextM[0];
